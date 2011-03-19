@@ -93,6 +93,7 @@ function Datepicker() {
 			// [2] = cell title (optional), e.g. $.datepicker.noWeekends
 		beforeShow: null, // Function that takes an input field and
 			// returns a set of custom settings for the date picker
+		afterUpdate: null, //Define a callback function after a datepicker month Div is rendered
 		onSelect: null, // Define a callback function when a date is selected
 		onChangeMonthYear: null, // Define a callback function when the month or year is changed
 		onClose: null, // Define a callback function when the datepicker is closed
@@ -722,6 +723,10 @@ $.extend(Datepicker.prototype, {
 				origyearshtml = inst.yearshtml = null;
 			}, 0);
 		}
+		
+		var afterUpdate = $.datepicker._get(inst, 'afterUpdate');
+		extendRemove(inst.settings, (afterUpdate ? afterUpdate.apply(inst.input, [inst.input, inst]) : {}));
+
 	},
 
 	/* Retrieve the size of left and top borders for an element.
